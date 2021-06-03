@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {
+  margin: 0 auto;
+  max-width: 370px;
+  padding: 0 20px;
+  font-family: Georgia;
+  text-align: center;
+  align: center;
+  background-color: #fff;
+  border-radius: 25px;
+}
+
+.container {
+  background-color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  align: center;
+  text-align: center;
+  border-radius: 40px;
+
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+  text-align: center;
+}
+
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+</style>
+</head>
+<body>
+
+<div style="text-align:center; border-radius: 25px; margin: 10px">
+  <div align="center" style="font-family: Georgia; text-align:center;">
+    <h2 style="text-align:center; font-weight: 600; font-size: 45px;">Чатурбейт</h2>
+    <p style="font-style: italic;">"прив ты м или ж?"</p>
+  </div>
+</div>
+
+
+<div class="container">
+    <style>
+    input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 18px 0;
+    display: inline-block;
+    border: 0px solid #ccc;
+    border-radius: 40px;
+    box-sizing: border-box;
+    align: center;
+    text-align: center;
+    background-color: #42f5d7;
+    font-family: Georgia;
+    }
+
+    input[type=submit] {
+    width: 70%;
+    background-color: #ffff00;
+    color: black;
+    padding: 14px 20px;
+    margin: 24px 0;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    align: center;
+    font-family: Georgia;
+    text-align: center;
+    }
+
+    input[type=submit]:hover {
+    color: white;
+    background-color: #ff9900;
+    font-family: Georgia;
+    text-align: center;
+    }
+
+    div {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    }
+    </style>
+
+    <form id="post-form" method="POST" action="checkview" style="text-align:center;">
+        {% csrf_token %}
+        <label>Идентификатор комнаты</label>
+        <input type="text" name="room_name" id="room_name" width="100px" style = "weight: 400" />
+        <label>Ваш никнейм</label>
+        <input type="text" name="username" id="username" width="100px" align = "center">
+        <input type="submit" value="НУ ЧЕ НАРОД ПОГНАЛИ!!!!">
+    </form>
+</div>
+
+
+</body>
+
+
+</html>

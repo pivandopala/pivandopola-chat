@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0 auto;
+  max-width: 370px;
+  padding: 0 20px;
+  font-family: Georgia
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.darker {
+  border-color:#3bc4ff;
+  background-color: #3bc4ff;
+  border-radius: 50px;
+  font-family: Roboto, Arial
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.time-right {
+  float: right;
+  color: #fff;
+  text-align: right;
+}
+
+.time-left {
+  float: left;
+  color: #fff;
+  text-align: right;
+  align: right;
+}
+</style>
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+</head>
+<body>
+
+<h2 style = "text-align: center; font-style: italic; margin-top: 80px;">Комната {{room}} - Чатурбейт</h2>
+
+<div id="display" style='background-color: #fff'>
+
+</div>
+
+<script>
+$(document).ready(function(){
+
+setInterval(function(){
+    $.ajax({
+        type: 'GET',
+        url : "/getMessages/{{room}}/",
+        success: function(response){
+            console.log(response);
+            $("#display").empty();
+            for (var key in response.messages)
+            {
+                var temp="<div class='container darker' style='padding: 15px; padding-top:2px; padding-left:30px; margin-right: 50px; margin: 10px; background-color: #3bc4ff'; border-radius: 50px; border-color:#3bc4ff;><b style='font-style:italic; color:#fff; font-size: 10px; font-family: Arial, max-width: 100%'>"+response.messages[key].user+"</b><p style='margin-bottom: 3px; margin-top: 0px; color: white; font-size: 18px; font-weight:bold; font-family: Roboto, Arial;'>"+response.messages[key].value+"</p><span class='time-left' style='text-align: right; font-size: 10px; color: #fff; font-family: Roboto, Arial; padding-bottom: 2px'>"+response.messages[key].date+"</span></div>";
+                $("#display").append(temp);
+            }
+        },
+        error: function(response){
+            'бывает'
+        }
+    });
+},1000);
+})
+</script>
+
+
+<div class="container">
+    <style>
+    input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    }
+
+    input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+    background-color: #45a049;
+    }
+
+    div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    }
+    </style>
+
+    <form id="post-form" style ="text-align: center">
+        {% csrf_token %}
+        <input type="hidden" name="username" id="username" value="{{username}}"/>
+        <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>
+        <input type="text" name="message" id="message" width="100px " style="border-radius: 25px" />
+        <input type="submit" value="Оставить в Интернете" style="border-radius: 25px; max-width: 90%; text-align: center; align: center; font-family: Roboto; font-weight: bold; background-color: #ffff00; color: black">
+    </form>
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+  $(document).on('submit','#post-form',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type:'POST',
+      url:'/send',
+      data:{
+          username:$('#username').val(),
+          room_id:$('#room_id').val(),
+          message:$('#message').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+         //alert(data)
+      }
+    });
+    document.getElementById('message').value = ''
+  });
+</script>
+
+</html>
